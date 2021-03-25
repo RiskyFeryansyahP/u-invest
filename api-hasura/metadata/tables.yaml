@@ -1,5 +1,8 @@
 - table:
     schema: public
+    name: SMEs
+- table:
+    schema: public
     name: profile
 - table:
     schema: public

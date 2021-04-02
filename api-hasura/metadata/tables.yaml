@@ -3,10 +3,19 @@
     name: SMEs
 - table:
     schema: public
+    name: news
+- table:
+    schema: public
     name: profile
 - table:
     schema: public
     name: roles
+- table:
+    schema: public
+    name: stocks
+- table:
+    schema: public
+    name: transactions
 - table:
     schema: public
     name: users

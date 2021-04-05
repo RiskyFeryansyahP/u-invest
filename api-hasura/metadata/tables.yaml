@@ -15,6 +15,15 @@
 - table:
     schema: public
     name: profile
+  object_relationships:
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        column_mapping:
+          id: profile_id
 - table:
     schema: public
     name: roles

@@ -1,9 +1,17 @@
 - table:
     schema: public
     name: SMEs
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: news
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: profile
@@ -13,9 +21,20 @@
 - table:
     schema: public
     name: stocks
+  object_relationships:
+  - name: SME
+    using:
+      foreign_key_constraint_on: sme_id
 - table:
     schema: public
     name: transactions
+  object_relationships:
+  - name: SME
+    using:
+      foreign_key_constraint_on: sme_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: users
@@ -23,3 +42,25 @@
   - name: profile
     using:
       foreign_key_constraint_on: profile_id
+  array_relationships:
+  - name: news
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: news
+  - name: SMEs
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: SMEs
+  - name: transactions
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: transactions

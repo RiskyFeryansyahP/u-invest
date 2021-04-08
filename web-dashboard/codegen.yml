@@ -1,0 +1,14 @@
+overwrite: true
+schema: 
+  - "${GRAPHQL_DOMAIN}/v1/graphql":
+      headers:
+        x-hasura-admin-secret: "${GRAPHQL_SECRET}"
+documents: "src/graphql/**/*.graphql"
+generates:
+  src/generated/types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"
+    config:
+      withHooks: true

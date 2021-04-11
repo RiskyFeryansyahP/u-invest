@@ -1,5 +1,4 @@
 const withPlugins = require('next-compose-plugins')
-const webpack = require('web')
 const withAntdLess = require('next-plugin-antd-less')
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 

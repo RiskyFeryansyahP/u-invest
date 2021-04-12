@@ -46,7 +46,8 @@ const Signin: React.FC = () => {
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 6 }}>
                 <Text>
-                  Belum punya akun? <Link>Daftar Disini</Link>
+                  Belum punya akun ?{' '}
+                  <Link href="/auth/signup">Daftar Disini</Link>
                 </Text>
               </Form.Item>
             </Form>

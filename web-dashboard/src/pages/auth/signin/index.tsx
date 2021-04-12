@@ -34,6 +34,12 @@ const Signin: React.FC = () => {
           <div className={style.container}>
             <div className={style.content}>
               <div className={style.content_title}>
+                <Image
+                  src="/uinvest_logo.png"
+                  alt="Logo U-Invest"
+                  width={300}
+                  height={100}
+                />
                 <Title level={2}> Hai, Selamat Datang Kembali </Title>
                 <Text>
                   Segera login, dan investasikan danamu kepada pelaku UMKM

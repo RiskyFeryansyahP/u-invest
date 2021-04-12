@@ -9,6 +9,7 @@ const plugins = [
                 sourceMap: true,
                 modules: true,
             },
+            lessVarsFilePath: './src/styles/theme.less',
             webpack: (config) => {
                 // replace antd moment to dayjs
                 config.plugins.push(new AntdDayjsWebpackPlugin())

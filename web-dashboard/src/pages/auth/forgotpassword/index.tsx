@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import style from './index.module.less'
+import style from '../index.module.less'
 
 import { Button, Form, Input, Typography } from 'antd'
 

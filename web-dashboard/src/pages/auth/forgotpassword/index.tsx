@@ -4,7 +4,7 @@ import style from '../index.module.less'
 
 import { Button, Form, Input, Typography } from 'antd'
 
-const { Text, Title, Link } = Typography
+const { Text, Title } = Typography
 
 const ForgotPassword: React.FC = () => {
   return (
@@ -34,8 +34,8 @@ const ForgotPassword: React.FC = () => {
                 <Image
                   src="/uinvest_logo.png"
                   alt="Logo U-Invest"
-                  width={300}
-                  height={100}
+                  width={250}
+                  height={50}
                 />
                 <Title level={2}> Lupa Kata Sandi ? </Title>
                 <Text>

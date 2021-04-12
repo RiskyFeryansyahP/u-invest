@@ -4,7 +4,7 @@ import style from '../index.module.less'
 
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
 
-const { Text, Title, Link } = Typography
+const { Text, Title } = Typography
 
 const Verification: React.FC = () => {
   return (

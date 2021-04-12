@@ -37,8 +37,8 @@ const Signin: React.FC = () => {
                 <Image
                   src="/uinvest_logo.png"
                   alt="Logo U-Invest"
-                  width={300}
-                  height={100}
+                  width={250}
+                  height={50}
                 />
                 <Title level={2}> Hai, Selamat Datang Kembali </Title>
                 <Text>

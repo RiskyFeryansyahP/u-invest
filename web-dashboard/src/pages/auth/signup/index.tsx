@@ -1,5 +1,5 @@
 import React from 'react'
-import style from './index.module.less'
+import style from '../index.module.less'
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
 
 const { Title, Text, Link } = Typography

@@ -6,6 +6,7 @@ import (
 
 	"github.com/RiskyFeryansyahP/u-invest/internal/model"
 	"github.com/RiskyFeryansyahP/u-invest/internal/service/authentication"
+	"github.com/RiskyFeryansyahP/u-invest/util"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -47,12 +48,14 @@ func (a *AuthenticationUsecase) CreateUser(ctx context.Context, input model.Inpu
 
 	input.Password = string(hash)
 
-	err = a.AuthRepo.Create(ctx, input)
+	code := util.RandomNumber()
+
+	err = a.AuthRepo.Create(ctx, input, code)
 	if err != nil {
 		return err
 	}
 
-	err = a.AuthRepo.SendVerificationCode(ctx, input.Email)
+	err = a.AuthRepo.SendVerificationCode(ctx, input.Email, code)
 	if err != nil {
 		return err
 	}

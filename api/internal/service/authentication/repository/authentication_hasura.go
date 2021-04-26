@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/smtp"
+	"strconv"
 
 	"github.com/RiskyFeryansyahP/u-invest/config"
 	"github.com/RiskyFeryansyahP/u-invest/internal/graphql/mutation"
@@ -48,14 +49,14 @@ func (a *AuthenticationRepository) FetchByEmail(ctx context.Context, input model
 }
 
 // Create is create new user / registering new user
-func (a *AuthenticationRepository) Create(ctx context.Context, input model.InputRegister) error {
+func (a *AuthenticationRepository) Create(ctx context.Context, input model.InputRegister, code int) error {
 	var resp interface{}
 
 	req := graphql.NewRequest(mutation.CreateNewUser)
 	req.Var("email", input.Email)
 	req.Var("password", input.Password)
 	req.Var("name", input.Name)
-	req.Var("code", "6789")
+	req.Var("code", strconv.Itoa(code))
 	req.Var("phone_number", input.PhoneNumber)
 	req.Header.Set("x-hasura-admin-secret", a.Hasura.AdminSecret)
 
@@ -69,11 +70,13 @@ func (a *AuthenticationRepository) Create(ctx context.Context, input model.Input
 }
 
 // SendVerificationCode ...
-func (a *AuthenticationRepository) SendVerificationCode(ctx context.Context, email string) error {
+func (a *AuthenticationRepository) SendVerificationCode(ctx context.Context, email string, code int) error {
+	c := strconv.Itoa(code)
+
 	msg := []byte("To: " + email + "\r\n" +
 		"Subject: Pendaftaran akun U-Invest\r\n" +
 		"\r\n" +
-		"Halo U-Investers, Kode verifikasi untuk akun U-Invest Anda adalah 6789" + "\r\n")
+		"Halo U-Investers, Kode verifikasi untuk akun U-Invest Anda adalah" + c + "\r\n")
 
 	err := smtp.SendMail(
 		"smtp.gmail.com:587",

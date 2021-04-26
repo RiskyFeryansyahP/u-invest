@@ -1,0 +1,1 @@
+ALTER TABLE "public"."SMEs" ALTER COLUMN "documents" DROP NOT NULL;

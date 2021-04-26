@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/smtp"
 	"strconv"
@@ -64,6 +65,28 @@ func (a *AuthenticationRepository) Create(ctx context.Context, input model.Input
 		log.Printf("failed run mutation: %+v \n", err)
 
 		return err
+	}
+
+	return nil
+}
+
+// UpdateStatusVerified update status verified to `true`
+func (a *AuthenticationRepository) UpdateStatusVerified(ctx context.Context, input model.InputVerification) error {
+	var resp model.ResponseUserValidation
+
+	req := graphql.NewRequest(mutation.UpdateStatusVerifiedUser)
+	req.Var("email", input.Email)
+	req.Var("code", input.VerificationCode)
+	req.Header.Set("x-hasura-admin-secret", a.Hasura.AdminSecret)
+
+	if err := a.Client.Run(ctx, req, &resp); err != nil {
+		log.Printf("failed run mutation: %+v \n", err)
+
+		return err
+	}
+
+	if resp.UpdateUser.AffectedRows == 0 {
+		return fmt.Errorf("failed validation user, please check your code validation")
 	}
 
 	return nil

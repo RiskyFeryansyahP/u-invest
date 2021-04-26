@@ -24,4 +24,13 @@ const (
 		}
 	}
 	`
+
+	// UpdateStatusVerifiedUser ...
+	UpdateStatusVerifiedUser = `
+	mutation UpdateStatusVerifiedUser($email: String!, $code: String!) {
+		update_users(where: {_and: [{email: {_eq: $email}}, {verification_code: {_eq: $code}}]}, _set: {is_verified: true, verification_code: null}) {
+		  affected_rows
+		}
+	}		
+	`
 )

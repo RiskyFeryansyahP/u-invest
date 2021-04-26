@@ -21,8 +21,9 @@ func NewAuthenticationHandler(r *router.Group, authUC authentication.UsecaseAuth
 		AuthUC: authUC,
 	}
 
-	r.POST("/login", handler.login)
-	r.POST("/register", handler.register)
+	r.POST("/auth/login", handler.login)
+	r.POST("/auth/register", handler.register)
+	r.POST("/auth/verified", handler.verified)
 }
 
 func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
@@ -60,7 +61,30 @@ func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
 	json.NewEncoder(ctx).Encode(map[string]string{
 		"message": err.Error(),
 	})
-	return
+}
+
+func (a *AuthenticationHandler) verified(ctx *fasthttp.RequestCtx) {
+	var input model.InputVerification
+
+	b := ctx.Request.Body()
+
+	json.Unmarshal(b, &input)
+
+	ctx.Response.Header.Set("Content-Type", "application/json")
+
+	err := a.AuthUC.VerificationValidation(ctx, input)
+	if err != nil {
+		ctx.Response.Header.SetStatusCode(fasthttp.StatusBadRequest)
+		json.NewEncoder(ctx).Encode(map[string]string{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	ctx.Response.Header.SetStatusCode(fasthttp.StatusOK)
+	json.NewEncoder(ctx).Encode(map[string]string{
+		"message": "success validation user",
+	})
 }
 
 func (a *AuthenticationHandler) register(ctx *fasthttp.RequestCtx) {

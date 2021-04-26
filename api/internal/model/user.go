@@ -24,3 +24,9 @@ type InputRegister struct {
 	Name        string `json:"name"`
 	PhoneNumber string `json:"phone_number"`
 }
+
+// InputVerification store value of input verification
+type InputVerification struct {
+	Email            string `json:"email"`
+	VerificationCode string `json:"code"`
+}

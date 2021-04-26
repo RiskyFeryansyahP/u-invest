@@ -63,6 +63,24 @@ func (a *AuthenticationUsecase) CreateUser(ctx context.Context, input model.Inpu
 	return nil
 }
 
+// VerificationValidation validation if user verified
+func (a *AuthenticationUsecase) VerificationValidation(ctx context.Context, input model.InputVerification) error {
+	if input.Email == "" {
+		return fmt.Errorf("email should not be empty")
+	}
+
+	if len(input.VerificationCode) < 4 {
+		return fmt.Errorf("verification code not valid")
+	}
+
+	err := a.AuthRepo.UpdateStatusVerified(ctx, input)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // LoginValidation ...
 func (a *AuthenticationUsecase) LoginValidation(ctx context.Context, input model.InputLogin) (*model.ResponseUsers, error) {
 	if input.Email == "" {

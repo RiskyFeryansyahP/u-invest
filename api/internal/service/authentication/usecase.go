@@ -10,4 +10,5 @@ import (
 type UsecaseAuthentication interface {
 	CreateUser(ctx context.Context, input model.InputRegister) error
 	LoginValidation(ctx context.Context, input model.InputLogin) (*model.ResponseUsers, error)
+	VerificationValidation(ctx context.Context, input model.InputVerification) error
 }

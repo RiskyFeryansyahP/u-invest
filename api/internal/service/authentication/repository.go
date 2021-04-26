@@ -10,4 +10,5 @@ import (
 type RepositoryAuthentication interface {
 	FetchByEmail(ctx context.Context, input model.InputLogin) (*model.ResponseUsers, error)
 	Create(ctx context.Context, input model.InputRegister) error
+	SendVerificationCode(ctx context.Context, email string) error
 }

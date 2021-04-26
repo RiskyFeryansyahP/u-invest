@@ -52,6 +52,11 @@ func (a *AuthenticationUsecase) CreateUser(ctx context.Context, input model.Inpu
 		return err
 	}
 
+	err = a.AuthRepo.SendVerificationCode(ctx, input.Email)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -76,7 +81,4 @@ func (a *AuthenticationUsecase) LoginValidation(ctx context.Context, input model
 	}
 
 	return res, nil
-}
-
-func sendVerificationCode(ctx context.Context, email string) {
 }

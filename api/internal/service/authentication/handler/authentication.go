@@ -3,23 +3,33 @@ package handler
 import (
 	"encoding/json"
 
+	"github.com/RiskyFeryansyahP/u-invest/internal/service/authentication"
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 )
 
-// NewAuthenticationHandler new initilization handler for authentication
-func NewAuthenticationHandler(r *router.Group) {
-	r.GET("/login", login)
-	r.GET("/register", register)
+// AuthenticationHandler ...
+type AuthenticationHandler struct {
+	AuthUC authentication.UsecaseAuthentication
 }
 
-func login(ctx *fasthttp.RequestCtx) {
+// NewAuthenticationHandler new initilization handler for authentication
+func NewAuthenticationHandler(r *router.Group, authUC authentication.UsecaseAuthentication) {
+	handler := &AuthenticationHandler{
+		AuthUC: authUC,
+	}
+
+	r.GET("/login", handler.login)
+	r.GET("/register", handler.register)
+}
+
+func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
 	json.NewEncoder(ctx).Encode(map[string]string{
 		"message": "Login handler",
 	})
 }
 
-func register(ctx *fasthttp.RequestCtx) {
+func (a *AuthenticationHandler) register(ctx *fasthttp.RequestCtx) {
 	json.NewEncoder(ctx).Encode(map[string]string{
 		"message": "Register handler",
 	})

@@ -8,8 +8,10 @@ import (
 	"github.com/RiskyFeryansyahP/u-invest/config"
 	"github.com/RiskyFeryansyahP/u-invest/internal/service/authentication/handler"
 	"github.com/RiskyFeryansyahP/u-invest/internal/service/authentication/repository"
+	"github.com/RiskyFeryansyahP/u-invest/internal/service/authentication/usecase"
 	"github.com/fasthttp/router"
 	_ "github.com/joho/godotenv/autoload" // autoload env
+	"github.com/machinebox/graphql"
 	"github.com/valyala/fasthttp"
 )
 
@@ -27,8 +29,11 @@ func main() {
 	r := router.New()
 	rg := r.Group("/api/v1")
 
-	repository.NewAuthenticationRepository(cfg)
-	handler.NewAuthenticationHandler(rg)
+	client := graphql.NewClient(cfg.Hasura.Endpoint)
+
+	repo := repository.NewAuthenticationRepository(cfg, client)
+	uc := usecase.NewAuthenticationUsecase(repo)
+	handler.NewAuthenticationHandler(rg, uc)
 
 	log.Printf("API Server running at %s \n", port)
 

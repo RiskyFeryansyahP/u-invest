@@ -37,5 +37,16 @@ func main() {
 
 	log.Printf("API Server running at %s \n", port)
 
-	log.Fatal(fasthttp.ListenAndServe(port, r.Handler))
+	log.Fatal(fasthttp.ListenAndServe(port, CORS(r.Handler)))
+}
+
+// CORS ...
+func CORS(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return func(ctx *fasthttp.RequestCtx) {
+		ctx.Response.Header.Set("Access-Control-Allow-Methods", "*")
+		ctx.Response.Header.Set("Access-Control-Allow-Origin", "*")
+		ctx.Response.Header.Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+
+		next(ctx)
+	}
 }

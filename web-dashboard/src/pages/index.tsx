@@ -1,7 +1,10 @@
 import Head from 'next/head'
+import { ProtectRoute, useAuth } from '../contexts/auth'
 import styles from '../styles/Home.module.less'
+import useSWR from 'swr'
+import api from '../services/Api'
 
-export default function Home() {
+function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -63,3 +66,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default ProtectRoute(Home)

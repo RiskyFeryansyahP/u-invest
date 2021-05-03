@@ -52,15 +52,7 @@ func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	if len(res.Users) > 0 {
-		json.NewEncoder(ctx).Encode(res.Users[0])
-		return
-	}
-
-	ctx.Response.Header.SetStatusCode(fasthttp.StatusBadRequest)
-	json.NewEncoder(ctx).Encode(map[string]string{
-		"message": err.Error(),
-	})
+	json.NewEncoder(ctx).Encode(res.Users[0])
 }
 
 func (a *AuthenticationHandler) verified(ctx *fasthttp.RequestCtx) {

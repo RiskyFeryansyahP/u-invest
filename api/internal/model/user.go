@@ -9,6 +9,8 @@ type User struct {
 	IsVerified       bool   `json:"is_verified"`
 	VerificationCode string `json:"verification_code"`
 	IdentityImage    string `json:"identity_image"`
+
+	Profile *Profile
 }
 
 // InputLogin store value of input login
@@ -29,4 +31,9 @@ type InputRegister struct {
 type InputVerification struct {
 	Email            string `json:"email"`
 	VerificationCode string `json:"code"`
+}
+
+// InputDetail store value of input detail
+type InputDetail struct {
+	ID string `json:"id"`
 }

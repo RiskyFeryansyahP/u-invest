@@ -12,6 +12,7 @@ const Verification: React.FC = () => {
   const [form] = Form.useForm()
 
   const handleSubmitVerification = async () => {
+    const done_loading = message.loading('Menunggu melakukan verifikasi...')
     const values = await form.validateFields()
     const email = Cookies.get('member_email')
 
@@ -25,6 +26,8 @@ const Verification: React.FC = () => {
     } catch (error) {
       message.error('Terjadi kesalahan!')
       console.log('error', error)
+    } finally {
+      done_loading()
     }
   }
 

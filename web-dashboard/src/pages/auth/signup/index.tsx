@@ -21,6 +21,8 @@ const Signup: React.FC = () => {
   const [form] = Form.useForm()
 
   const handleSubmitSignup = async () => {
+    const done_loading = message.loading('Tunggu sebentar...')
+
     const values = await form.validateFields()
 
     const full_name = values.first_name + ' ' + values.last_name
@@ -39,10 +41,13 @@ const Signup: React.FC = () => {
       })
 
       Cookies.set('member_email', email)
+      message.success('Berhasil melakukan pendaftaran akun')
       window.location.href = '/auth/verification'
     } catch (error) {
       message.error('terjadi kesalahan!')
       console.log('error', error)
+    } finally {
+      done_loading()
     }
   }
 

@@ -49,6 +49,23 @@ func (a *AuthenticationRepository) FetchByEmail(ctx context.Context, input model
 	return resp, nil
 }
 
+// FetchDetailUser fetch detail profile for specific user that match with id
+func (a *AuthenticationRepository) FetchDetailUser(ctx context.Context, id string) (*model.ResponseUsers, error) {
+	var resp *model.ResponseUsers
+
+	req := graphql.NewRequest(query.FetchDetailUser)
+	req.Var("id", id)
+	req.Header.Set("x-hasura-admin-secret", a.Hasura.AdminSecret)
+
+	if err := a.Client.Run(ctx, req, &resp); err != nil {
+		log.Printf("failed run query: %+v \n", err)
+
+		return nil, err
+	}
+
+	return resp, nil
+}
+
 // Create is create new user / registering new user
 func (a *AuthenticationRepository) Create(ctx context.Context, input model.InputRegister, code int) error {
 	var resp interface{}

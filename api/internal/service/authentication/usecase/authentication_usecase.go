@@ -96,10 +96,28 @@ func (a *AuthenticationUsecase) LoginValidation(ctx context.Context, input model
 		return nil, err
 	}
 
+	if len(res.Users) < 1 {
+		return nil, fmt.Errorf("user does not exist")
+	}
+
 	err = bcrypt.CompareHashAndPassword([]byte(res.Users[0].Password), []byte(input.Password))
 	if err != nil {
 		return nil, err
 	}
 
 	return res, nil
+}
+
+// DetailUser get detail user
+func (a *AuthenticationUsecase) DetailUser(ctx context.Context, id string) (*model.ResponseUsers, error) {
+	if id == "" {
+		return nil, fmt.Errorf("id should not be empty")
+	}
+
+	resp, err := a.AuthRepo.FetchDetailUser(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

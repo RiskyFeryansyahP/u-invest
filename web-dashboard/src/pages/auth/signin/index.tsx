@@ -2,11 +2,32 @@ import React from 'react'
 import Image from 'next/image'
 import style from '../index.module.less'
 
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, message, Typography } from 'antd'
+import { useAuth } from '../../../contexts/auth'
 
 const { Text, Title, Link } = Typography
 
 const Signin: React.FC = () => {
+  const { login, isAuthenticated } = useAuth()
+
+  const [form] = Form.useForm()
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = '/'
+    }
+  }, [isAuthenticated])
+
+  const handleSubmitLogin = async () => {
+    const values = await form.validateFields()
+
+    try {
+      await login(values.email, values.password)
+    } catch (error) {
+      message.error('email atau password anda salah')
+    }
+  }
+
   return (
     <>
       <div className={style.layout}>
@@ -46,7 +67,11 @@ const Signin: React.FC = () => {
                 </Text>
               </div>
               <div className={style.content_body}>
-                <Form layout="vertical">
+                <Form
+                  form={form}
+                  layout="vertical"
+                  onFinish={handleSubmitLogin}
+                >
                   <Form.Item
                     label="Email"
                     name="email"
@@ -74,7 +99,7 @@ const Signin: React.FC = () => {
                     </Text>
                   </Form.Item>
                   <Form.Item>
-                    <Button type="primary" block>
+                    <Button htmlType="submit" type="primary" block>
                       Masuk
                     </Button>
                   </Form.Item>

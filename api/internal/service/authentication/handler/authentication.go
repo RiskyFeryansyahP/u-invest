@@ -24,6 +24,7 @@ func NewAuthenticationHandler(r *router.Group, authUC authentication.UsecaseAuth
 	r.POST("/auth/login", handler.login)
 	r.POST("/auth/register", handler.register)
 	r.POST("/auth/verified", handler.verified)
+	r.POST("/auth/me", handler.Detail)
 }
 
 func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
@@ -52,15 +53,7 @@ func (a *AuthenticationHandler) login(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	if len(res.Users) > 0 {
-		json.NewEncoder(ctx).Encode(res.Users[0])
-		return
-	}
-
-	ctx.Response.Header.SetStatusCode(fasthttp.StatusBadRequest)
-	json.NewEncoder(ctx).Encode(map[string]string{
-		"message": err.Error(),
-	})
+	json.NewEncoder(ctx).Encode(res.Users[0])
 }
 
 func (a *AuthenticationHandler) verified(ctx *fasthttp.RequestCtx) {
@@ -109,4 +102,27 @@ func (a *AuthenticationHandler) register(ctx *fasthttp.RequestCtx) {
 	json.NewEncoder(ctx).Encode(map[string]string{
 		"message": "succeed created a new user",
 	})
+}
+
+// Detail endpoint to get detail of user
+func (a *AuthenticationHandler) Detail(ctx *fasthttp.RequestCtx) {
+	var input model.InputDetail
+
+	b := ctx.Request.Body()
+
+	json.Unmarshal(b, &input)
+
+	ctx.Response.Header.Set("Content-Type", "application/json")
+
+	resp, err := a.AuthUC.DetailUser(ctx, input.ID)
+	if err != nil {
+		ctx.Response.Header.SetStatusCode(fasthttp.StatusBadRequest)
+		json.NewEncoder(ctx).Encode(map[string]string{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	ctx.Response.Header.SetStatusCode(fasthttp.StatusOK)
+	json.NewEncoder(ctx).Encode(resp)
 }

@@ -1,17 +1,47 @@
 import React from 'react'
-import { Avatar, Button, Card, Divider, Layout, Typography } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Dropdown,
+  Layout,
+  Menu,
+  Typography,
+} from 'antd'
 import {
   UserOutlined,
   BellOutlined,
   ShoppingCartOutlined,
   ContainerOutlined,
   ForkOutlined,
+  EditOutlined,
+  ShopOutlined,
+  MoneyCollectOutlined,
+  SearchOutlined,
 } from '@ant-design/icons'
 import Image from 'next/image'
 import styles from './index.module.less'
 
 const { Header } = Layout
 const { Title, Text } = Typography
+
+const menuDropdown = (
+  <Menu>
+    <Menu.Item icon={<EditOutlined />}>
+      <a target="_blank">Edit Profile</a>
+    </Menu.Item>
+    <Menu.Item icon={<ShopOutlined />}>
+      <a target="_blank">Daftarkan Bisnis</a>
+    </Menu.Item>
+    <Menu.Item icon={<MoneyCollectOutlined />}>
+      <a target="_blank">Ajukan Pendanaan</a>
+    </Menu.Item>
+    <Menu.Item icon={<SearchOutlined />}>
+      <a target="_blank">Temukan Investor</a>
+    </Menu.Item>
+  </Menu>
+)
 
 const Dashboard: React.FC = () => {
   return (
@@ -38,7 +68,9 @@ const Dashboard: React.FC = () => {
               <BellOutlined />
             </div>
             <div>
-              <Avatar icon={<UserOutlined />} />
+              <Dropdown overlay={menuDropdown}>
+                <Avatar icon={<UserOutlined />} />
+              </Dropdown>
             </div>
           </div>
         </div>
@@ -66,7 +98,7 @@ const Dashboard: React.FC = () => {
             style={{
               width: '100%',
               boxShadow:
-                '0px 3px 10px rgba(0, 0, 0, 0.25), inset 0px 1px 2px rgba(0, 0, 0, 0.25);',
+                '0px 3px 10px rgba(0, 0, 0, 0.25), inset 0px 1px 2px rgba(0, 0, 0, 0.25)',
             }}
           >
             <div className={styles.card_investation}>

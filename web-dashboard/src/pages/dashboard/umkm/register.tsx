@@ -1,54 +1,14 @@
 import React from 'react'
-import {
-  Avatar,
-  Divider,
-  Dropdown,
-  Layout,
-  Menu,
-  Steps,
-  Typography,
-  Form,
-  Input,
-  Button,
-  Upload,
-} from 'antd'
-import {
-  UserOutlined,
-  BellOutlined,
-  EditOutlined,
-  ShopOutlined,
-  MoneyCollectOutlined,
-  SearchOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
-import Image from 'next/image'
+import { Layout, Steps, Form, Input, Button, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
-
-const { Header } = Layout
-const { Title } = Typography
+import { HeaderDashboard } from '../../../components/Header'
 const { Step } = Steps
 
 const layoutForm = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 }
-
-const menuDropdown = (
-  <Menu>
-    <Menu.Item icon={<EditOutlined />}>
-      <a target="_blank">Edit Profile</a>
-    </Menu.Item>
-    <Menu.Item icon={<ShopOutlined />}>
-      <a target="_blank">Daftarkan Bisnis</a>
-    </Menu.Item>
-    <Menu.Item icon={<MoneyCollectOutlined />}>
-      <a target="_blank">Ajukan Pendanaan</a>
-    </Menu.Item>
-    <Menu.Item icon={<SearchOutlined />}>
-      <a target="_blank">Temukan Investor</a>
-    </Menu.Item>
-  </Menu>
-)
 
 const StepForm1: React.FC = () => (
   <>
@@ -214,52 +174,7 @@ const RegisterUMKM: React.FC = () => {
   return (
     <React.Fragment>
       <Layout style={{ background: '#FFFFFF' }}>
-        <Header
-          style={{
-            zIndex: 1,
-            width: '100%',
-            background: '#FFFFFF',
-          }}
-        >
-          <div className={styles.navigation}>
-            <div className={styles.left_nav}>
-              <Image
-                src="/uinvest_logo.png"
-                alt="Logo U-Invest"
-                width={190}
-                height={50}
-              />
-            </div>
-
-            <div className={styles.right_nav}>
-              <div>
-                <BellOutlined />
-              </div>
-              <div>
-                <Dropdown overlay={menuDropdown}>
-                  <Avatar icon={<UserOutlined />} />
-                </Dropdown>
-              </div>
-            </div>
-          </div>
-        </Header>
-        <div className={styles.title_page}>
-          <Divider
-            style={{
-              height: 1,
-              borderColor: '#A5A1A1',
-            }}
-            className={styles.divider}
-          />
-          <Title level={5}>Form Pendaftaran UMKM</Title>
-          <Divider
-            style={{
-              height: 1,
-              borderColor: '#A5A1A1',
-            }}
-            className={styles.divider}
-          />
-        </div>
+        <HeaderDashboard title="Form Pendaftaran UMKM" />
         <div className={styles.container}>
           <Steps progressDot current={activeStep}>
             <Step title="Data Pemilik" description="" />

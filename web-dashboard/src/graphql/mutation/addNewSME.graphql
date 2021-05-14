@@ -1,0 +1,5 @@
+mutation addNewSME($input: SMEs_insert_input!) {
+  insert_SMEs_one(object: $input) {
+    id
+  }
+}

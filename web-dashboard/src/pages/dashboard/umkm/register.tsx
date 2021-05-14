@@ -179,8 +179,6 @@ const RegisterUMKM: React.FC = () => {
   const handleSumbitRegisterUMKM = async () => {
     const values = await form.validateFields()
 
-    console.log('values', values)
-
     const done_loading = message.loading('tunggu sebentar...')
 
     try {

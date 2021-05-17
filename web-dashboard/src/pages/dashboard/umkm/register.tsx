@@ -1,14 +1,26 @@
 import React from 'react'
-import { Layout, Steps, Form, Input, Button, Upload } from 'antd'
+import {
+  Layout,
+  Steps,
+  Form,
+  Input,
+  Button,
+  Upload,
+  DatePicker,
+  message,
+} from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
 import { HeaderDashboard } from '../../../components/Header'
-const { Step } = Steps
+import { useAddNewSmeMutation } from '../../../generated/types'
+import Cookies from 'js-cookie'
 
 const layoutForm = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 }
+
+const { Step } = Steps
 
 const StepForm1: React.FC = () => (
   <>
@@ -38,7 +50,7 @@ const StepForm1: React.FC = () => (
       name="birth_date"
       rules={[{ required: true, message: 'Tanggal Lahir wajib di isi!' }]}
     >
-      <Input />
+      <DatePicker />
     </Form.Item>
     <Form.Item label="Jenis Kelamin" name="gender">
       <Input />
@@ -74,7 +86,7 @@ const StepForm2: React.FC = () => (
       name="since_year"
       rules={[{ required: true, message: 'Tanggal Berdiri wajib di isi!' }]}
     >
-      <Input />
+      <DatePicker />
     </Form.Item>
     <Form.Item
       label="Alamat Usaha"
@@ -149,15 +161,50 @@ const steps = [
     title: 'Step2',
     content: <StepForm2 />,
   },
-  {
-    step: 3,
-    title: 'Step3',
-    content: <StepForm3 />,
-  },
+  // {
+  //   step: 3,
+  //   title: 'Step3',
+  //   content: <StepForm3 />,
+  // },
 ]
 
 const RegisterUMKM: React.FC = () => {
+  const user_id = Cookies.get('member')
+
   const [activeStep, setActiveStep] = React.useState(0)
+  const [form] = Form.useForm()
+
+  const [, addNewSME] = useAddNewSmeMutation()
+
+  const handleSumbitRegisterUMKM = async () => {
+    const values = await form.validateFields()
+
+    const done_loading = message.loading('tunggu sebentar...')
+
+    try {
+      const result = await addNewSME({
+        input: {
+          name: values.business_name,
+          business_field: values.business_field,
+          address: values.business_address,
+          since_year: values.since_year,
+          owner_name: values.name,
+          phone_number: values.phonenumber,
+          user_id: user_id,
+          documents: {},
+          image_owner: '',
+          image_business: '',
+        },
+      })
+
+      message.success('berhasil menambah bisnis umkm')
+    } catch (error) {
+      console.log('error', error)
+      message.error('terjadi kesalahan')
+    } finally {
+      done_loading()
+    }
+  }
 
   const handleNextStep = () => {
     const nextStep = activeStep + 1
@@ -182,10 +229,15 @@ const RegisterUMKM: React.FC = () => {
             <Step title="Upload Berkas" description="" />
           </Steps>
           <div className={styles.form_umkm}>
-            <Form {...layoutForm}>
-              {steps.map((item) => (
+            <Form
+              {...layoutForm}
+              onFinish={handleSumbitRegisterUMKM}
+              form={form}
+            >
+              {steps.map((item, k) => (
                 <div
                   className={`${item.step !== activeStep + 1 && styles.hidden}`}
+                  key={k}
                 >
                   {item.content}
                 </div>
